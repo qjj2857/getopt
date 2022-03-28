@@ -162,7 +162,8 @@ namespace getopt {
                     std::string key(arg);
                     m_args_map[key] = "";
 
-                    bool fonnd_1st_none_space = false;
+                    bool found_1st_none_space = false;
+                    int space_num = 0;           //for removing trailing space
                     std::string full_content;
                     for (++i; i < size; ++i)
                     {
@@ -174,20 +175,30 @@ namespace getopt {
                         }
                         else if (content == " ")   //continuous content separated by spaces, keep the num of spaces
                         {
-                            if (fonnd_1st_none_space)
+                            if (found_1st_none_space)
                             {
-                                full_content += " ";
+                                space_num++;
                             }
                         }
                         else     //drop spaces between key and valid content
                         {
-                            fonnd_1st_none_space = true;
+                            if (space_num != 0)
+                            {
+                                full_content.append(space_num, ' ');
+                                space_num = 0;
+                            }
+                            found_1st_none_space = true;
                             full_content += content;
                         }
                     }
 
                     if (!full_content.empty())
                     {
+                        //deal with input: "c:/ prog file"  , where the '"' is typed user
+                        if (full_content.front() == '\"' && full_content.back() == '\"')
+                        {
+                            full_content = std::string(full_content.begin() + 1, full_content.end() - 1);
+                        }
                         m_args_map[key] = full_content;
                     }
                 }
