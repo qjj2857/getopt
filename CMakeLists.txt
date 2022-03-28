@@ -1,0 +1,14 @@
+cmake_minimum_required (VERSION 2.8)
+project (getopt)
+
+ADD_DEFINITIONS( -DGETOPT_QJJ2857)
+
+FILE(GLOB_RECURSE SRCS *.cpp *.c)
+FILE(GLOB_RECURSE HEADERS *.hpp *.h)
+SOURCE_GROUP("src" FILES ${SRCS})
+SOURCE_GROUP("header" FILES ${HEADERS})
+
+set(CMAKE_CXX_STANDARD 11)
+
+add_executable(${PROJECT_NAME} ${SRCS} ${HEADERS})
+
