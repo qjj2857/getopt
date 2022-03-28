@@ -22,6 +22,8 @@
 
 namespace getopt {
 
+    //string converter
+
     inline std::wstring StringToWstring(const std::string& str)
     {
         LPCSTR pszSrc = str.c_str();
@@ -59,6 +61,43 @@ namespace getopt {
 
         return str;
     }
+
+
+    template< typename T >
+    inline T cvt(const std::string& in_)
+    {
+        T t;
+        return (std::istringstream(in_) >> t) ? t :
+            (T)(in_.size() && (in_ != "0") && (in_ != "false"));
+    }
+
+    template<>
+    inline char cvt(const std::string& in_)
+    {
+        return in_.size() == 1 ? (char)(in_[0]) : (char)(cvt<int>(in_));
+    }
+    template<>
+    inline signed char cvt(const std::string& in_)
+    {
+        return in_.size() == 1 ? (signed char)(in_[0]) : (signed char)(cvt<int>(in_));
+    }
+    template<>
+    inline unsigned char cvt(const std::string& in_)
+    {
+        return in_.size() == 1 ? (unsigned char)(in_[0]) : (unsigned char)(cvt<int>(in_));
+    }
+
+    template<>
+    inline const char* cvt(const std::string& in_)
+    {
+        return in_.c_str();
+    }
+    template<>
+    inline std::string cvt(const std::string& in_)
+    {
+        return in_;
+    }
+
 
     inline std::string GetCmdline()
     {
@@ -100,5 +139,120 @@ namespace getopt {
         return args;
     }
 
+    class GetOpt
+    {
+    public:
+        GetOpt() : GetOpt(ParseCmdLine(GetCmdline()))
+        {
+        }
+
+        GetOpt(const std::vector<std::string>& args_)
+        {
+            const auto& args = args_;
+            auto size = args.size();
+
+            for (int i = 0; i < size; ++i)
+            {
+                const auto& arg = args[i];
+
+                if (arg[0] == '-')              //find arg key
+                {
+                    std::string key(arg);
+                    m_args_map[key] = "";
+
+                    bool fonnd_1st_none_space = false;
+                    std::string full_content;
+                    for (++i; i < size; ++i)
+                    {
+                        auto& content = args[i];
+                        if (content[0] == '-')  // next arg key found
+                        {
+                            --i;
+                            break;
+                        }
+                        else if (content == " ")   //continuous content separated by spaces, keep the num of spaces
+                        {
+                            if (fonnd_1st_none_space)
+                            {
+                                full_content += " ";
+                            }
+                        }
+                        else     //drop spaces between key and valid content
+                        {
+                            fonnd_1st_none_space = true;
+                            full_content += content;
+                        }
+                    }
+
+                    if (!full_content.empty())
+                    {
+                        m_args_map[key] = full_content;
+                    }
+                }
+            }
+        }
+
+        bool HasArg(const std::string& arg_) const
+        {
+            return m_args_map.find(arg_) != m_args_map.end();
+        }
+
+        template< typename T >
+        T GetArg(const T& default_val, const char* arg_)
+        {
+            if (HasArg(arg_))
+            {
+                auto info = m_args_map[arg_];
+                return cvt<T>(info);
+            }
+            else
+            {
+                return default_val;
+            }
+        }
+
+        template< typename T, typename... Args >
+        T GetArg(const T& default_val, const char* arg_, Args... args_)
+        {
+            T t = GetArg<T>(default_val, arg_);
+            if (t == default_val)
+            {
+                return GetArg<T>(default_val, args_...);
+            }
+            else
+            {
+                return t;
+            }
+        }
+
+        std::string GetArg(const char* default_val, const char* arg_)
+        {
+            if (HasArg(arg_))
+            {
+                return m_args_map[arg_];
+            }
+            else
+            {
+                return default_val;
+            }
+        }
+
+        template< typename... Args >
+        std::string  GetArg(const char* default_val, const char* arg_, Args... args_)
+        {
+            auto t = GetArg(default_val, arg_);
+            if (t == default_val)
+            {
+                return GetArg(default_val, args_...);
+            }
+            else
+            {
+                return t;
+            }
+        }
+
+    private:
+        std::unordered_map< std::string, std::string > m_args_map;
+    };
 }
 

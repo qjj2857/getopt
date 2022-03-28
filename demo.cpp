@@ -1,14 +1,21 @@
-#include "getopt.hpp"
+#include "GetOpt.hpp"
 #include <iostream>
 
 using namespace std;
 using namespace getopt;
 
-int main(int argc, const char** argv)
+int main(void)
 {
-    auto info = GetCmdline();
+    GetOpt opts;
 
+    auto info = GetCmdline();
     auto args = ParseCmdLine(info);
+
+    auto num = opts.GetArg(1, "-n", "--num", "--n", "-num");
+    auto input = opts.GetArg("", "-i", "--input", "--i", "-input");
+    auto output = opts.GetArg("t:/", "--zh");
+    bool pause = opts.HasArg("-p");
+    bool pause1 = opts.HasArg("--p");
 
     cout << info << endl;
 }
