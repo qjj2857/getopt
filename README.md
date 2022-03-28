@@ -1,10 +1,12 @@
 # getopt
 Simple but powerful command-line options handler (C++11).
 
+- 支持参数不存在时设置 default value
 - support Chinese, 支持中文
 - support multi opts，支持多关键词匹配
-- support spaces in args，支持参数中带空格。such as:
-  - the same result: -i C:\Program Files (x86)\Microsoft SDKs)   -i "C:\Program Files (x86)\Microsoft SDKs)"
+- support spaces in args，支持参数中带空格。such as， the same result::
+  -  -i C:\Program Files (x86)\Microsoft SDKs)
+  -  -i "C:\Program Files (x86)\Microsoft SDKs)"
 
 
 ```c++
