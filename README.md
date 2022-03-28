@@ -18,7 +18,21 @@ Simple but powerful command-line options handler (C++11).
     bool pause = opts.HasArg("--p", "-p1");
 
 ```
-getopt.exe --n 456 -i  "t:\a b.txt" --zh a:\中文路径 带  空格  -p
+windows support multiple space in args：
+getopt.exe --n 456 -i  "t:\a b.txt" --zh a:\中文路径 带     空格  -p
+
+--n 456 
+-i  t:\a b.txt 
+--zh a:\中文路径 带     空格  
+-p
+
+
+linux（/proc/%d/cmdline） will squash to only one space：
+
+--n 456 
+-i  t:\a b.txt 
+--zh a:\中文路径 带 空格  
+-p
 
 
 

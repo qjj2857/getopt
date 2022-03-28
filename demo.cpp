@@ -2,7 +2,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace getopt;
+using namespace getopts;
 
 int main(void)
 {
@@ -27,6 +27,4 @@ int main(void)
     auto u_input = opts_user.GetArg("", "-i", "--input", "--i", "-input");
     auto u_output = opts_user.GetArg("t:/", "--zh");
     bool u_pause = opts_user.HasArg("--p", "-p1");
-
-
 }

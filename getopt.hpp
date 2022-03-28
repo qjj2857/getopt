@@ -20,9 +20,11 @@
 #include <unistd.h>
 #endif
 
-namespace getopt {
+namespace getopts {
 
     //string converter
+
+#ifdef _WIN32
 
     inline std::wstring StringToWstring(const std::string& str)
     {
@@ -61,7 +63,7 @@ namespace getopt {
 
         return str;
     }
-
+#endif
 
     template< typename T >
     inline T cvt(const std::string& in_)
@@ -107,7 +109,25 @@ namespace getopt {
         std::wstring w_cmds(cmdline);
         cmds = WstringToString(w_cmds);
 #else
+        std::string arg;
+        pid_t pid = getpid();
 
+        char fname[32] = {};
+        sprintf(fname, "/proc/%d/cmdline", pid);
+        std::ifstream ifs(fname);
+        if (ifs.good())
+        {
+            std::stringstream ss;
+            ifs >> ss.rdbuf();
+            arg = ss.str();
+        }
+        for (auto end = arg.size(), i = end - end; i < end; ++i)
+        {
+            auto st = i;
+            while (i < arg.size() && arg[i] != '\0') ++i;
+            cmds +=(arg.substr(st, i - st));
+            cmds += ' ';
+        }
 #endif
         return cmds;
     }
