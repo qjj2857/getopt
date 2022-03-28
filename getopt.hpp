@@ -73,5 +73,32 @@ namespace getopt {
         return cmds;
     }
 
+    inline std::vector<std::string> ParseCmdLine(const std::string& cmdline_)
+    {
+        std::vector<std::string> args;
+        std::string arg;
+        const std::string& cmdline = cmdline_;
+
+        size_t s_idx = 0;    //start index
+        size_t idx = cmdline.find(" ");
+
+        while (idx != cmdline.npos)
+        {
+            if (idx != s_idx)      //continuous spaces
+            {
+                arg = cmdline.substr(s_idx, idx - s_idx);
+                args.emplace_back(arg);
+            }
+            s_idx = idx + 1;
+            args.emplace_back(" ");
+            idx = cmdline.find(" ", s_idx);
+        }
+
+        arg = cmdline.substr(s_idx);
+        args.emplace_back(arg);
+
+        return args;
+    }
+
 }
 

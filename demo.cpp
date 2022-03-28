@@ -8,5 +8,7 @@ int main(int argc, const char** argv)
 {
     auto info = GetCmdline();
 
+    auto args = ParseCmdLine(info);
+
     cout << info << endl;
 }
