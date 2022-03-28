@@ -18,7 +18,7 @@ Simple but powerful command-line options handler (C++11).
     bool pause = opts.HasArg("--p", "-p1");
 
 ```
-getopt.ext --n 456 -i  "t:\a b.txt" --zh a:\中文路径 带  空格  -p
+getopt.exe --n 456 -i  "t:\a b.txt" --zh a:\中文路径 带  空格  -p
 
 
 
