@@ -142,10 +142,12 @@ namespace getopt {
     class GetOpt
     {
     public:
+        GetOpt(std::string cmdline_) : GetOpt(ParseCmdLine(cmdline_))
+        {
+        }
         GetOpt() : GetOpt(ParseCmdLine(GetCmdline()))
         {
         }
-
         GetOpt(const std::vector<std::string>& args_)
         {
             const auto& args = args_;
@@ -195,6 +197,19 @@ namespace getopt {
         bool HasArg(const std::string& arg_) const
         {
             return m_args_map.find(arg_) != m_args_map.end();
+        }
+
+        template< typename... Args >
+        bool HasArg(const std::string& arg_, Args... args_) const
+        {
+            if (!HasArg(arg_))
+            {
+                return HasArg(args_...);
+            }
+            else
+            {
+                return true;
+            }
         }
 
         template< typename T >
