@@ -19,21 +19,26 @@ Simple but powerful command-line options handler (C++11).
 
 ```
 windows support multiple space in args：
+<pre>
 getopt.exe --n 456 -i  "t:\a b.txt" --zh a:\中文路径 带     空格  -p
 
---n 456 
--i  t:\a b.txt 
---zh a:\中文路径 带     空格  
--p
+--n   ->  456 
+-i    ->  t:\a b.txt 
+--zh  ->  a:\中文路径 带     空格  
+-p    ->  true
+</pre>
 
 
 linux（/proc/%d/cmdline） will squash to only one space：
 
---n 456 
--i  t:\a b.txt 
---zh a:\中文路径 带 空格  
--p
+<pre>
+getopt.exe --n 456 -i  "t:\a b.txt" --zh a:\中文路径 带     空格  -p
 
+--n   ->  456 
+-i    ->  t:\a b.txt 
+--zh  ->  a:\中文路径 带 空格  
+-p    ->  ture 
+</pre>
 
 
 ```c++
