@@ -7,6 +7,7 @@ Simple but powerful command-line options handler (C++11).
 - support spaces in args，支持参数中带空格。such as， the same result::
   -  -i C:\Program Files (x86)\Microsoft SDKs)
   -  -i "C:\Program Files (x86)\Microsoft SDKs)"
+- auto add '-' if user forgot to add '-' when calling GetArg()/HasArg()
 
 
 

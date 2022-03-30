@@ -1,4 +1,4 @@
-#include "GetOpt.hpp"
+#include "getopts.hpp"
 #include <iostream>
 
 using namespace std;
@@ -21,6 +21,7 @@ int main(void)
     cout << input << endl;
     cout << output << endl;
     cout << pause << endl;
+    cout << opts.HasArg("p") << endl;
 
     GetOpt opts_user("--n 456 -i  t:/a b.txt --zh a:/中文路径 带  空格  -p");
     auto u_num = opts_user.GetArg(1, "-n", "--num", "--n", "-num");

@@ -227,7 +227,14 @@ namespace getopts {
 
         bool HasArg(const std::string& arg_) const
         {
-            return m_args_map.find(arg_) != m_args_map.end();
+            if (arg_.front() != '-')
+            {
+                return m_args_map.find('-' + arg_) != m_args_map.end();
+            }
+            else
+            {
+                return m_args_map.find(arg_) != m_args_map.end();
+            }
         }
 
         template< typename... Args >
@@ -245,7 +252,7 @@ namespace getopts {
 
         template< typename T >
         //T GetArg(const T& default_val, const char* arg_)
-        T GetArg(const T& default_val, const string& arg_)
+        T GetArg(const T& default_val, const std::string& arg_)
         {
             if (HasArg(arg_))
             {
@@ -260,7 +267,7 @@ namespace getopts {
 
         template< typename T, typename... Args >
         //T GetArg(const T& default_val, const char* arg_, Args... args_)
-        T GetArg(const T& default_val, const string& arg_, Args... args_)
+        T GetArg(const T& default_val, const std::string& arg_, Args... args_)
         {
             T t = GetArg<T>(default_val, arg_);
             if (t == default_val)
@@ -274,7 +281,7 @@ namespace getopts {
         }
 
         //std::string GetArg(const char* default_val, const char* arg_)
-        std::string GetArg(const string& default_val, const char* arg_)
+        std::string GetArg(const std::string& default_val, const std::string& arg_)
         {
             if (HasArg(arg_))
             {
@@ -288,7 +295,7 @@ namespace getopts {
 
         template< typename... Args >
         //std::string  GetArg(const char* default_val, const char* arg_, Args... args_)
-        std::string  GetArg(const string& default_val, const string& arg_, Args... args_)
+        std::string  GetArg(const std::string& default_val, const std::string& arg_, Args... args_)
         {
             auto t = GetArg(default_val, arg_);
             if (t == default_val)
