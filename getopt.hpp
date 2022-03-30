@@ -125,7 +125,7 @@ namespace getopts {
         {
             auto st = i;
             while (i < arg.size() && arg[i] != '\0') ++i;
-            cmds +=(arg.substr(st, i - st));
+            cmds += (arg.substr(st, i - st));
             cmds += ' ';
         }
 #endif
@@ -244,7 +244,8 @@ namespace getopts {
         }
 
         template< typename T >
-        T GetArg(const T& default_val, const char* arg_)
+        //T GetArg(const T& default_val, const char* arg_)
+        T GetArg(const T& default_val, const string& arg_)
         {
             if (HasArg(arg_))
             {
@@ -258,7 +259,8 @@ namespace getopts {
         }
 
         template< typename T, typename... Args >
-        T GetArg(const T& default_val, const char* arg_, Args... args_)
+        //T GetArg(const T& default_val, const char* arg_, Args... args_)
+        T GetArg(const T& default_val, const string& arg_, Args... args_)
         {
             T t = GetArg<T>(default_val, arg_);
             if (t == default_val)
@@ -271,7 +273,8 @@ namespace getopts {
             }
         }
 
-        std::string GetArg(const char* default_val, const char* arg_)
+        //std::string GetArg(const char* default_val, const char* arg_)
+        std::string GetArg(const string& default_val, const char* arg_)
         {
             if (HasArg(arg_))
             {
@@ -284,7 +287,8 @@ namespace getopts {
         }
 
         template< typename... Args >
-        std::string  GetArg(const char* default_val, const char* arg_, Args... args_)
+        //std::string  GetArg(const char* default_val, const char* arg_, Args... args_)
+        std::string  GetArg(const string& default_val, const string& arg_, Args... args_)
         {
             auto t = GetArg(default_val, arg_);
             if (t == default_val)
