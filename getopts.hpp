@@ -250,29 +250,30 @@ namespace getopts {
             }
         }
 
+
         template< typename T >
-        //T GetArg(const T& default_val, const char* arg_)
-        T GetArg(const T& default_val, const std::string& arg_)
+        //T GetArg(const T& default_val_, const char* arg_)
+        T GetArg(const T& default_val_, const std::string& arg_)
         {
             if (HasArg(arg_))
             {
-                auto info = m_args_map[arg_];
+                auto info = GetArgVal(arg_);
                 return cvt<T>(info);
             }
             else
             {
-                return default_val;
+                return default_val_;
             }
         }
 
         template< typename T, typename... Args >
-        //T GetArg(const T& default_val, const char* arg_, Args... args_)
-        T GetArg(const T& default_val, const std::string& arg_, Args... args_)
+        //T GetArg(const T& default_val_, const char* arg_, Args... args_)
+        T GetArg(const T& default_val_, const std::string& arg_, Args... args_)
         {
-            T t = GetArg<T>(default_val, arg_);
-            if (t == default_val)
+            T t = GetArg<T>(default_val_, arg_);
+            if (t == default_val_)
             {
-                return GetArg<T>(default_val, args_...);
+                return GetArg<T>(default_val_, args_...);
             }
             else
             {
@@ -280,27 +281,27 @@ namespace getopts {
             }
         }
 
-        //std::string GetArg(const char* default_val, const char* arg_)
-        std::string GetArg(const std::string& default_val, const std::string& arg_)
+        //std::string GetArg(const char* default_val_, const char* arg_)
+        std::string GetArg(const std::string& default_val_, const std::string& arg_)
         {
             if (HasArg(arg_))
             {
-                return m_args_map[arg_];
+                return GetArgVal(arg_);
             }
             else
             {
-                return default_val;
+                return default_val_;
             }
         }
 
         template< typename... Args >
-        //std::string  GetArg(const char* default_val, const char* arg_, Args... args_)
-        std::string  GetArg(const std::string& default_val, const std::string& arg_, Args... args_)
+        //std::string  GetArg(const char* default_val_, const char* arg_, Args... args_)
+        std::string  GetArg(const std::string& default_val_, const std::string& arg_, Args... args_)
         {
-            auto t = GetArg(default_val, arg_);
-            if (t == default_val)
+            auto t = GetArg(default_val_, arg_);
+            if (t == default_val_)
             {
-                return GetArg(default_val, args_...);
+                return GetArg(default_val_, args_...);
             }
             else
             {
@@ -309,6 +310,17 @@ namespace getopts {
         }
 
     private:
+        std::string GetArgVal(const std::string& arg_)
+        {
+            if (arg_.front() != '-')
+            {
+                return m_args_map['-' + arg_];
+            }
+            else
+            {
+                return m_args_map[arg_];
+            }
+        };
         std::unordered_map< std::string, std::string > m_args_map;
     };
 }

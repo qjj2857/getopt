@@ -22,6 +22,7 @@ int main(void)
     cout << output << endl;
     cout << pause << endl;
     cout << opts.HasArg("p") << endl;
+    cout << opts.GetArg("", "i") << endl;
 
     GetOpt opts_user("--n 456 -i  t:/a b.txt --zh a:/中文路径 带  空格  -p");
     auto u_num = opts_user.GetArg(1, "-n", "--num", "--n", "-num");
