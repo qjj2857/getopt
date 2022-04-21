@@ -128,6 +128,7 @@ namespace getopts {
             cmds += (arg.substr(st, i - st));
             cmds += ' ';
         }
+        cmds = cmds.substr(0, cmds.size() - 1); //remove last space added by myself
 #endif
         return cmds;
     }
