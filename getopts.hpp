@@ -7,6 +7,9 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
+
+#define  GETOPTS_CONVERT_EQUALS
 
 #ifdef _WIN32
 #include <io.h>
@@ -137,7 +140,12 @@ namespace getopts {
     {
         std::vector<std::string> args;
         std::string arg;
+#ifndef GETOPTS_CONVERT_EQUALS
         const std::string& cmdline = cmdline_;
+#else
+        std::string cmdline = cmdline_;
+        std::replace(cmdline.begin(), cmdline.end(), '=', ' ');
+#endif // GETOPTS_CONVERT_EQUALS
 
         size_t s_idx = 0;    //start index
         size_t idx = cmdline.find(" ");
