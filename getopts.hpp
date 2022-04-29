@@ -71,8 +71,14 @@ namespace getopts {
     inline T cvt(const std::string& in_)
     {
         T t;
-        return (std::istringstream(in_) >> t) ? t :
-            (T)(in_.size() && (in_ != "0") && (in_ != "false"));
+        if (std::istringstream(in_) >> t)
+        {
+            return t;
+        }
+        else
+        {
+            return  (T)(in_.size() && (in_ != "0") && (in_ != "false"));
+        }
     }
 
     template<>
