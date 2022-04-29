@@ -98,6 +98,30 @@ namespace getopts {
     }
 
     template<>
+    inline int cvt(const std::string& in_)
+    {
+        return std::stoi(in_);
+    }
+
+    template<>
+    inline unsigned long cvt(const std::string& in_)
+    {
+        return std::stoul(in_);
+    }
+
+    template<>
+    inline long long cvt(const std::string& in_)
+    {
+        return std::stoll(in_);
+    }
+
+    template<>
+    inline unsigned long long cvt(const std::string& in_)
+    {
+        return std::stoull(in_);
+    }
+
+    template<>
     inline const char* cvt(const std::string& in_)
     {
         return in_.c_str();
