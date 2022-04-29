@@ -1,6 +1,5 @@
 // Simple but powerful command-line options handler (C++11).
 // by qjj2857
-// GPL-3.0 Licensed
 
 #pragma once
 #include <unordered_map>
@@ -9,7 +8,7 @@
 #include <vector>
 #include <algorithm>
 
-#define  GETOPTS_CONVERT_EQUALS
+#define GETOPTS_CONVERT_EQUALS
 
 #ifdef _WIN32
 #include <io.h>
@@ -334,3 +333,6 @@ namespace getopts {
     };
 }
 
+#ifdef GETOPTS_CONVERT_EQUALS
+#undef GETOPTS_CONVERT_EQUALS
+#endif // GETOPTS_CONVERT_EQUALS
